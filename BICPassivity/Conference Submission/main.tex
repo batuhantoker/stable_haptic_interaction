@@ -1,0 +1,211 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\providecommand{\keywords}[1]{\textbf{\textit{Keywords---}} #1}
+\usepackage[pdftex]{graphicx}
+\usepackage{url}
+\setlength{\oddsidemargin}{0.25in}
+\setlength{\textwidth}{6.5in}
+\setlength{\topmargin}{0in}
+\setlength{\textheight}{8.5in}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{gensymb}
+\usepackage[backend=biber,style=numeric,sorting=none]{biblatex}
+\addbibresource{references.bib}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{fixltx2e}
+\usepackage{textgreek}
+\usepackage{mathtools}
+\usepackage{lscape}
+\usepackage[most]{tcolorbox}
+\usepackage{lipsum}
+\addbibresource{references.bib}
+\begin{document}
+\title{Necessary and Sufficient Conditions for Passivity of Basic Impedance Control of Series Elastic Actuators}
+\author{Batuhan Toker and Volkan Patoglu }
+\date{March 2019}
+\maketitle
+\begin{abstract}
+\emph{This paper is a progress report for design and control of \textsc{AsistOn-Finger} with  \textsc{HandsOn} actuation modules. Human rehabilitation is often better handled by control of force of interaction between assisted extremity and the environment instead of simply controlling the position of the end-effector. Compliant actuation is used in such designs to minimize large forces due to shocks, obtain safe interaction with user and environment, store and release energy. Series damping elastic actuator was proposed as  \textsc{HandsOn-SDEA} to provide faster shock absorption by adding damping unit to \textsc{HandsOn-SEA}. Series damping actuator was proposed as \textsc{HandsOn-SDA} which senses exerted force by measuring damping. Passivity constraints of basic impedance control of \textsc{HandsOn-SEA} \textsc{HandsOn-SDA} and \textsc{HandsOn-SDEA} is derived. Basic impedance controller allows the system to passively render Voigt model desired impedance dynamics that is not allowed to be passively rendered in velocity sourced impedance control. In physical human-robot interaction, it is a necessary to passively render any passive impedance, which will be guaranteed by basic impedance control.}
+\end{abstract}
+In this project, a wearable and force controllable finger exoskeleton is proposed to meet low inertia and safety requirements in tendon therapy. The device will be built on \textsc{AsistOn-Finger}\cite{ertas}  and will be driven by \textsc{HandsOn-SEA}\cite{handsonsea}. For hand rehabilitation, bidirectional peak torque is defined as at least 0.3 Nm based on the torques applied by professional therapists \cite{Ueki2012DevelopmentOA}. Bandwidth will be limited to at least 2 Hz, according to the fact that human force compliance control loop bandwidth is 1-2 Hz\cite{chan}\cite{sheridan}. Typical rehabilitation therapies for the finger are implemented at angular velocities of 50\degree/s, for example full range of motion frequencies below 0.5 Hz\cite{Adamovich}\cite{kawasaki}. 
+Passivity analysis of BIC is completed for three different compliant actuator.  
+
+
+\textsc{AsistOn-Finger} is a novel, under-actuated active exoskeleton for robot assisted tendon therapy for human fingers. The main purpose in the design of this device is to assist flexion and extension motions of a finger within its range of motion. The tendon therapy device will be driven by \textsc{HandsOn-SEA}. The handle of \textsc{HandsOn-SEA} will be the actuated linkage of the \textsc{AsistOn-Finger}. The linear analog model for the system is represented in the Figure~dfgfig:model.
+
+DC motor's motion is controlled by regulating its voltage. The torque constant of the DC motor is defined as K\textsubscript{m}, R is  the motor resistance,  K\textsubscript{b} is the motor back-emf constant, and b\textsubscript{m} is the cumulative damping of the motor. The transfer function from motor voltage V(s) to motor velocity s\texttheta\textsubscript{m}(s) can be derived as following:
+\begin{equation}
+\frac{s\theta_m(s)}{V(s)}=\frac{\frac{K_m}{R}}{Js+b}
+\end{equation}
+where \(J=J_a+J_g+J_p/r^2\) and \(b=b_m+\frac{K_mK_b}{R}\).
+
+J\textsubscript{e} is neglected, because its inertia is orders of magnitude smaller than the reflected intertia of the motor side of the cross-flexure pivot. After neglecting J\textsubscript{e}, the torque \texttau  \textsubscript{e} measured by the flexure acts on the system by following equation
+\begin{equation}
+\frac{s\theta_m(s)}{\tau_e(s)}=\frac{\frac{-1}{R}}{Js+b}
+\end{equation}
+where rotation of the pulley is \(\theta_p(s)=\frac{\theta_m(s)}{r}\)
+
+
+For further simplification, non collocation in the actuator allows us to model the actuator with transfer function of
+\begin{equation}
+G_{actuator}=\frac{\theta(s)}{\tau_a(s)}=\frac{1}{J_ms^2+b_ms}
+\end{equation}
+For the dynamic models of different type of actuators the torque estimation by the torque sensor will be defined as:\\
+For series elastic actuator,
+\begin{equation}
+\tau_{sens}(s)=k_f(\theta_p-\theta_h)
+\end{equation}
+for series damping elastic actuator,
+\begin{equation}
+\tau_{sens}(s)=k_f(\theta_p-\theta_h)+b_f(\dot\theta_p-\dot\theta_h)s
+\end{equation}
+and for series damping actuator
+\begin{equation}
+\tau_{sens}(s)=b_f(\dot\theta_p-\dot\theta_h)s
+\end{equation}
+
+The kinematic analysis of the tendon device will be explained in this section in part of future work. The optimal dimensions synthesized in\cite{ertas} will be used to have a dynamic model for the tendon device.
+
+\textsc{HandsOn-SEA} is controlled by the cascaded controller architecture which is based on Velocity-Sourced Impedance Control\cite{tagliamonte} is represented in Figure~dfgfig:handson. This controller architecture is consist of an inner velocity control loop and an intermediate force control loop and an outer impedance control loop. The imperfections of the power transmission system is compensated by inner loop. Modelling errors such as friction, stiction and slip are eliminated by robust motion controller. Force tracking performance is ensured by intermediate control loop by using force feedback. The outer loop determines the effective output impendance of the system. The controller parameters are defined to satisfy passivity of interaction\cite{tagliamonte}.
+
+
+
+In this project, I propose to implement basic impedance control to \textsc{HandsOn-SDEA}, \textsc{HandsOn-SEA} and \textsc{HandsOn-SDA}, to avoid environment uncertainties, meanwhile the violation of the integrator on the passivity of the inner force loop will be eliminated\cite{pratt}. 
+The proposed controller architecture is given in Figure~dfgfig:bic.A paralel spring-damper dynamics were considered:
+\begin{equation}
+sI(s)=Z_d=k_d+sd_d  
+\end{equation}
+A proportional-derivative force control law is considered:
+\begin{equation}
+C_f(s)=P+sD  
+\end{equation}
+
+Block diagram for the robot block in the controller is given in Figure~dfgfig:robot.
+
+The impedance at the environment port (\texttau  \textsubscript{e},$\dot{q}$) will be calculated for error dynamics of
+\begin{equation}
+err=q_d-q
+\end{equation}
+Closed loop dynamics of the system will be
+\begin{equation}
+(((sI(s)err-\tau_{e}(s))C_f(s)-\tau_{e}(s))\frac{\theta(s)}{\tau_a(s)})-q)k_f=\tau_{e}(s)
+\end{equation}
+The open loop transfer function of the actuator:
+\begin{equation}
+G_{actuator}=\frac{\theta(s)}{\tau_a(s)}
+\end{equation}
+Simplifyng is carried out for $q_d=0$:
+\begin{equation}
+-q(k_fC_fsI(s)G_{actuator}+k_f)=\tau_{e}(s)(1+k_fG_{actuator}+C_fK_f)
+\end{equation}
+so that the impedance at the environment
+\begin{equation}
+\frac{\tau_e(s)}{-\Dot{q}(s)}=\frac{(k_fC_fI(s)G_{actuator})+k_f}{1+k_fG_{actuator}+C_fK_f}    
+\end{equation}
+
+Then the contoroller is upgraded for defined $\tau_{sens}$ in Figure~dfgfig:model4
+
+the impedance at the environment for this controller will be
+\begin{equation}
+\frac{\tau_e(s)}{-\Dot{q}(s)}=\frac{(b_fs+k_f)C_fI(s)G_{actuator}+b_fs+k_f}{1+(b_fs+k_f)(G_{actuator}+C_f)}   
+\end{equation}
+
+Finally, basic impedance controller for \textsc{HandsOn-SDA} is represented in Figure~dfgfig:model5. The impedance at the environment in the control of the actuator will be 
+\begin{equation}
+\frac{\tau_e(s)}{-\Dot{q}(s)}=\frac{(b_fs)C_fI(s)G_{actuator}+b_fs}{1+(b_fs)(G_{actuator}+C_f)}   
+\end{equation}
+The environment impedance of BIC can be generalized as following
+\begin{equation}
+\frac{\tau_e(s)}{-\Dot{q}(s)}=\frac{\frac{\tau_{sens}}{s}(C_fZ_{d}G_{actuator}+1)}{1+G_{actuator}\tau_{sens}(C_f+1)}   
+\end{equation}
+
+
+
+
+
+
+
+
+
+
+\maketitle
+
+\section{Introduction}
+\section{Impedance control of series elastic actuators}
+\subsection{Series Elastic Actuator}
+\subsection{Notation}
+\subsection{Control architecture}
+\subsubsection{Velocity sourced impedance controller}
+
+Impedance control is used in the cascaded control architecture to model dynamic relation between the actuator position and applied external force. Passivity in impedance control depends on control architecture, system dynamics and the desired impedance. For given control architecture, the set of passively rendered impedance values is called Z-width\cite{adamsblake}. The virtual inertia of the controlled motor cannot be less than the half of motor's physical inertia. This phenomena is proven by using non-collocated proportional force feedback\cite{colgate}. Also virtual stiffness of the series elastic actuator cannot be higher than physical spring stiffness, in velocity sourced impedance control (VSIC) architectures\cite{vallery}.\\
+
+To conclude the velocity sourced impedance control\cite{calanca}
+\begin{itemize}
+	\item There is no upper limit exist for the velocity and force proportional gains for given sufficiently low ratio of these gains.
+	\item Pure integrators can be used in velocity and force loops with limited integral gains. There is a trade-off between integral gain and k\textsubscript{d}.
+	\item For desired pure spring impedance dynamics(\(sI(s)=k_d\)), the maximum desired stiffness should be less than the physical spring to ensure passivity.
+	\item For desired parallel spring and damping impedance dynamics(\(sI(s)=k_d+sd_d\)), the control architecture does not ensure the passivity\cite{tagliamonte}.
+\end{itemize}
+Velocity Sourced Impedance Controller is represented in Figure~dfgfig:model7
+
+For the VSIC case, two proportional-integral force and velocity control laws are considered:
+\begin{equation}
+C_{f}(s)=P_{f}+\frac{I_{f}}{s} \\
+\end{equation}
+\begin{equation}
+C_{v}(s)=P_{v}+\frac{I_{v}}{s}  \\
+\end{equation}
+Torque estimation of SEA is:
+\begin{equation}
+\tau_{sens}(s)=k_f(\theta_p-\theta_h)
+\end{equation}
+so that the impedance at the environment is calculated as following
+\begin{equation}
+\begin{multlined}\\
+\tau_e(s)=((((Z_{d}err-\tau_e(s))C_{f}-\dot{q})C_{v}-\tau_e(s))G_{actuator}-q)\tau_{sens}(s) \\
+\tau_e(s)=((C_{f}Z_{d}err-C_{f}\tau_e(s)-\dot{q})C_{v}-\tau_e(s))G_{actuator}-q)\tau_{sens}(s) \\
+\tau_e(s)=((C_{v}C_{f}Z_{d}err-C_{v}C_{f}\tau_e(s)-\dot{q}C_{v}-\tau_e(s))G_{actuator}-q)\tau_{sens}(s) \\
+\tau_e(s)=((G_{actuator}C_{v}C_{f}Z_{d}err-\tau_e(s)(C_{v}C_{f}+1)G_{actuator}-\dot{q}C_{v}G_{actuator}-q)\tau_{sens}(s) \\
+\end{multlined}\\
+\end{equation}
+Simplification is carried out for
+\begin{equation}
+\begin{multlined}\\
+\dot{q}=qs\\
+q_{d}=0 \\
+\end{multlined}\\
+\end{equation}
+And the environment impedance is defined for
+\begin{equation}
+\tau_e(s)=-Z_{e}\dot{q}\\
+\end{equation}
+\begin{equation}
+Z_{e}=\frac{\tau_e(s)}{-\dot{q}}=\frac{\frac{1}{s}\tau_{sens}(s)(G_{actuator}C_{v}C_{f}Z_{d}+sC_{v}G_{actuator}+1)}{1+(C_{v}C_{f}+1)G_{actuator}\tau_{sens}(s)}
+\end{equation}
+\subsubsection{Basic impedance controller}
+\section{Passivity analysis}
+\subsection{Null impedance rendering}
+\subsection{Pure spring rendering}
+\subsection{Voigt model rendering}
+\section{Design guideline}
+\subsection{Effects of proper system modeling}
+\subsection{Effects of filtered derivative}
+\subsection{Effects of controller gains}
+\subsubsection{Effects of controller gains on null space rendering}
+\subsubsection{Effects of controller gains on pure spring impedance rendering}
+\subsection{Effects of controller gains on VM impedance rendering}
+
+\section{Future Work}
+SDEA and SDA are type of actuators that emerge to be investigated according to passivity. Another controllers can be implemented on those actuators, such as motion controlled admittance display,generic controller. Analysis and comparision of passivity constraint of the SEA/SDEA/SDA might be a good research topic to be covered for different controller architectures and desired impedances.
+
+\section{Conclusion}
+Ensuring passivity of the control architecture is a necessary condition to ensure a stable interaction with any passive environment. In the exoskeleton systems, the environment is the human, which is assumed as a passive system\cite{hogan}. In VSIC architecture, it is not possible to passively render any desired impedance. A SEA with VSIC architecture cannot passively render a Voigt model\cite{tagliamonte}, which causes environment uncertainties\cite{calanca}.\\
+
+Three different actuator is investigated through the research.The only difference between \textsc{HandsOn-SDEA} and \textsc{HandsOn-SEA} is a mechanical damper added parallel to the series elasticity in the mechanism. $b_f$ will have the value of damping in \textsc{HandsOn-SDEA}.However, $b_f$ is neglected in \textsc{HandsOn-SEA}, because there is no mechanical damper.\textsc{HandsOn-SDA} will sense the environment force by damping $b_f$.\\
+
+For BIC, passivity constraints are derived for three different actuators.For SDA and SEA, since the force derivative gain D is usually small to avoid noise amplification, the proportional gain of force control is limited by derived conditions. The bandwith limit of the BIC controller depends on the actuator bandwith. Motor's mechanical resonance is an example for actuation bandwith limitation. Desired impedance is not limited for for $d_d$, but desired stiffness is limited by sensor's stiffness.\\
+
+SDEA analysis provides constraints in selection of controller gains. Force control gains and desired impedance are limited by actuator's mass and sensor's stiffness and damping. There is an upper bound for sensing damping in terms of actuator's mass and damping. There is a relationship between sensor stiffness and desired stiffness. Lower inertia allows the system to be able render higher stiffness than its own.\\
