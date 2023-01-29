@@ -1,4 +1,4 @@
-# Stability of haptic interaction
+# Stability of haptic interaction - under development
  MATLAB implementation passivity analysis to investigate stability conditions of existing impedance controllers for haptic devices.
  
  This repository contains a collection of MATLAB scripts and functions for examining the stability of impedance control systems. 
